@@ -1,0 +1,22 @@
+version: '3'
+services:
+  jenkins-master:
+    image: "getintodevops/jenkins-withdocker:lts"
+    ports: 
+      - "8080:8080"
+    volumes:
+      - "jenkins-data:/var/jenkins_home"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "/usr/bin/docker:/usr/bin/docker"
+  registry:
+    image: "registry"
+    links:
+      - "jenkins-master"
+    ports:
+      - "127.0.0.1:5000:5000" 
+    volumes:
+      - "registry-data:/var/lib/registry"
+      
+volumes:
+  jenkins-data:
+  registry-data:
